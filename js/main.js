@@ -1,19 +1,22 @@
+/* eslint-disable no-console */
+
+// Описываем функцию, которая проверяет совпадает ли диапазон с условием задачи и дает допуск искать из диапазона рандомное число в следующих функциях.
+const isAdmission = (min, max) => (min >= 0 && max >= 0 && min < max);
+
+// Далее описываем функции для возвражения случайных чисел из диапазона
 const getRandomInteger = (rangeMin, rangeMax) => {
-  const randomNumber = rangeMin + Math.random() * (rangeMax + 1 - rangeMin);
-  // floor а не round, потому что есть вероятность что полученое число будет выходить за рамки диапазона на 1
-  return Math.floor(randomNumber);
-};
-// Тестируем
-for (;;){
-  let a = +prompt("Диапазон от", '');
-  let b = +prompt("Диапазон до", '');
-  if (a < 0 || b < 0) {
-    alert('Диапазон должен состоять из положительных чисел. Давай-ка ещё ра');
-    continue;
-  } else if (b < a || b === a) {
-    alert("Число \"от\" не может быть больше либо равно числу \"до\" . Давай-ка ещё раз");
-    continue;
+  if (isAdmission(rangeMin, rangeMax)) {
+    return console.log(`Целое число из диапазона: ${Math.floor(rangeMin + Math.random() * (rangeMax + 1 - rangeMin))}`);
   }
-  alert("Случайное число из диапазона: " + getRandomInteger(a, b));
-  break;
-}
+  console.log('Что то пошло не так. Проверь положительные ли числа и не равны ли друг другу.');
+};
+
+const getRandomFloat = (rangeMin, rangeMax, floatNumber) => {
+  if (isAdmission(rangeMin, rangeMax)) {
+    return console.log(`Число с плавающей точкой из диапазона: ${(rangeMin + Math.random() * (rangeMax + 1 - rangeMin)).toFixed(floatNumber)}`);
+  }
+  console.log('Что то пошло не так. Проверь положительные ли числа и не равны ли друг другу.');
+};
+
+getRandomInteger(1, 10);
+getRandomFloat(35.65000, 35.70000, 5);
