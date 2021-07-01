@@ -1,5 +1,5 @@
 import {AVATARS, OFFER_TYPE} from './variables.js';
-import { getRandomInteger, getRandomFloat, getRandomArrayElement, createAvatarsUrl, getRandomFeatures} from './utils.jsgit';
+import { getRandomInteger, getRandomFloat, getRandomArrayElement, createAvatarsUrl, getRandomFeatures} from './utils.js';
 
 createAvatarsUrl(AVATARS);
 
