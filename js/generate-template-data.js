@@ -1,4 +1,4 @@
-import {AVATARS, OFFER_TYPE} from './variables.js';
+import {AVATARS, OFFER_TYPE, numberOfOffers} from './variables.js';
 import { getRandomInteger, getRandomFloat, getRandomArrayElement, createAvatarsUrl, getRandomFeatures} from './utils.js';
 
 createAvatarsUrl(AVATARS);
@@ -32,4 +32,6 @@ const createOffer = () => ({
   },
 });
 
-export {createOffer};
+const similarOffers = new Array(numberOfOffers).fill(null).map(() => createOffer());
+
+export {similarOffers};
