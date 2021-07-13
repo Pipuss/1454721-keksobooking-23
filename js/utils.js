@@ -50,6 +50,26 @@ const getRandomFeatures = () => {
   return RANDOM_FEATURES = getUniqueFeatures();
 };
 
+// eslint-disable-next-line no-unused-vars
+const makeFormDisabled = (className, inputType) => {
+  const form = document.querySelector(`.${className}`);
+  form.classList.add(`${className}--disabled`);
+  const inputFields = form.querySelectorAll(inputType);
+  inputFields.forEach((inputField) => {
+    inputField.disabled = true;
+  });
+};
+
+// eslint-disable-next-line no-unused-vars
+const makeFormEnabled = (className, inputType) => {
+  const form = document.querySelector(`.${className}`);
+  form.classList.remove(`${className}--disabled`);
+  const inputFields = form.querySelectorAll(inputType);
+  inputFields.forEach((inputField) => {
+    inputField.disabled = false;
+  });
+};
+
 // Функция для взятия случайного элемента массива
 const getRandomArrayElement = (array) => array[getRandomInteger(0, array.length - 1)];
 
