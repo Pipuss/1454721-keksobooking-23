@@ -1,3 +1,6 @@
+import {adFormSetup} from './ad-form.js';
+
+adFormSetup();
 const showError = (err) => {
   alert(err);
 }
