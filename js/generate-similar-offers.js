@@ -16,15 +16,15 @@ const createSimilarElement = ((author, offer) => {
   const  find = (className) => similarElement.querySelector(className);
   // Поиск и наполнение текстовым содержимым
   const findFill = (className, content) => {
-    if (content === undefined) {
-      throw new Error ('Чего то не хватает');
-    }
+    // if (content === undefined) {
+    //   throw new Error ('Чего то не хватает');
+    // }
     similarElement.querySelector(className).textContent = content;
   };
 
-  find('.popup__avatar').src = `${author.avatar}.png`;
+  find('.popup__avatar').src = `${author.avatar}`;
   findFill('.popup__title', offer.title);
-  findFill('.popup__text--address',  `Широта: ${offer.address.lat}, долгота: ${offer.address.lng}`);
+  findFill('.popup__text--address',  `${offer.address}`);
   findFill('.popup__text--price', `${offer.price} `);
   find('.popup__text--price').insertAdjacentHTML('beforeend', '<span>₽/ночь</span>');
   findFill('.popup__type', OFFER_TYPE_TRANSLATE[offer.type]);
