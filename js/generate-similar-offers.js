@@ -9,7 +9,7 @@ const OFFER_TYPE_TRANSLATE = {
 const offersList = document.querySelector('.map__canvas');
 const similarOfferTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const createSimilarElement = ({author, offer}) => {
+const createSimilarElement = ((author, offer) => {
   const similarElement = similarOfferTemplate.cloneNode(true);
 
   // Функция для поиска элемента в DOM
@@ -45,7 +45,7 @@ const createSimilarElement = ({author, offer}) => {
     find('.popup__photos').insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`);
   });
 
-  offersList.appendChild(similarElement);
-};
+  return offersList.appendChild(similarElement);
+});
 
 export {createSimilarElement};

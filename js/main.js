@@ -1,9 +1,11 @@
-// import {adFormSetup} from './ad-form.js';
+import{setFormDisabled} from './ad-form.js';
 
-// adFormSetup();
+setFormDisabled('map__filters', 'fieldset');
+setFormDisabled('ad-form', 'fieldset');
+
 // const showError = (err) => {
 //   alert(err);
-// }
+// };
 
 // const renderMarkers = (data) => {
 //   console.log(data);
