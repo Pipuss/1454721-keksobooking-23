@@ -1,6 +1,24 @@
-const setupAdForm = () => {
-  // eslint-disable-next-line no-console
-  console.log('Setup Ok');
+// eslint-disable-next-line no-unused-vars
+const setFormDisabled = (className, inputType) => {
+  const form = document.querySelector(`.${className}`);
+  form.classList.add(`${className}--disabled`);
+  const inputFields = form.querySelectorAll(inputType);
+  inputFields.forEach((inputField) => {
+    inputField.disabled = true;
+  });
 };
 
-export {setupAdForm};
+// Включаем все єлементы формы но не трогаем поле адреса, ТЗ 3.4
+// eslint-disable-next-line no-unused-vars
+const setFormEnabled = (className, inputType) => {
+  const form = document.querySelector(`.${className}`);
+  form.classList.remove(`${className}--disabled`);
+  const inputFields = form.querySelectorAll(inputType);
+  inputFields.forEach((inputField) => {
+    if (!inputField.querySelector('#address')) {
+      inputField.disabled = false;
+    }
+  });
+};
+
+export {setFormDisabled, setFormEnabled};
