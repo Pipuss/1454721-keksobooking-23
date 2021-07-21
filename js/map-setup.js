@@ -4,22 +4,7 @@ import{createSimilarElement} from './generate-similar-offers.js';
 
 const offerAddressInput = document.querySelector('#address');
 
-const offerMap =  L.map('map-canvas')
-  .on('load', () => {
-    setFormEnabled('map__filters', 'fieldset');
-    setFormEnabled('ad-form', 'fieldset');
-  })
-  .setView({
-    lat: 35.68346,
-    lng: 139.76987,
-  }, 10);
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(offerMap);
-
+let offerMap = null;
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -43,28 +28,49 @@ const mainPinMarker = L.marker(
   },
 );
 
-const renderMarkers = ((data) => {
-  const {location} = data;
-  const offerPinMarker = L.marker(
+
+export const renderMarkers = ((data) => {
+  // debugger;
+
+  data.forEach((item) => {
+    debugger;
+    const {location} = item;
+    const offerPinMarker = L.marker(
+      {
+        lat: location.lat,
+        lng: location.lng,
+      },
+      {
+        icon: offerPinIcon,
+      },
+    );
+    const {author, offer} = item;
+    offerPinMarker.addTo(offerMap).bindPopup(createSimilarElement(author, offer));
+  });
+});
+
+export const renderMap = (callback) => {
+  offerMap =  L.map('map-canvas')
+    .on('load', () => {
+      callback();
+    })
+    .setView({
+      lat: 35.68346,
+      lng: 139.76987,
+    }, 10);
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
-      lat: location.lat,
-      lng: location.lng,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
-    {
-      icon: offerPinIcon,
-    },
-  );
-  const {author, offer} = data;
-  offerPinMarker.addTo(offerMap).bindPopup(createSimilarElement(author, offer));
-});
+  ).addTo(offerMap);
 
-mainPinMarker.addTo(offerMap);
-offerAddressInput.value = mainPinMarker.getLatLng();
+  mainPinMarker.addTo(offerMap);
+  offerAddressInput.value = mainPinMarker.getLatLng();
 
-mainPinMarker.on('moveend', (evt) => {
-  offerAddressInput.value = evt.target.getLatLng();
-});
+  mainPinMarker.on('moveend', (evt) => {
+    offerAddressInput.value = evt.target.getLatLng();
+  });
 
-similarOffers.forEach((similarOffer) => {
-  renderMarkers(similarOffer);
-});
+}
+
