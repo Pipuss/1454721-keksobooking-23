@@ -1,5 +1,5 @@
-import{setFormEnabled} from './ad-form.js';
-import{similarOffers} from './generate-template-data.js';
+// import{setFormEnabled} from './ad-form.js';
+// import{similarOffers} from './generate-template-data.js';
 import{createSimilarElement} from './generate-similar-offers.js';
 
 const offerAddressInput = document.querySelector('#address');
@@ -30,10 +30,8 @@ const mainPinMarker = L.marker(
 
 
 export const renderMarkers = ((data) => {
-  // debugger;
 
   data.forEach((item) => {
-    debugger;
     const {location} = item;
     const offerPinMarker = L.marker(
       {
@@ -71,6 +69,4 @@ export const renderMap = (callback) => {
   mainPinMarker.on('moveend', (evt) => {
     offerAddressInput.value = evt.target.getLatLng();
   });
-
-}
-
+};

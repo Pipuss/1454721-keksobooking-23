@@ -3,6 +3,7 @@ import {renderMap, renderMarkers} from './map-setup.js';
 
 
 const showError = (err) => {
+  // eslint-disable-next-line no-alert
   alert(err);
 };
 
@@ -12,15 +13,13 @@ const deactivateApp = () => {
 };
 
 const activateApp = () => {
-  console.log(`App is activated`);
-
-  fetch(`https://23.javascript.pages.academy/keksobooking/data`)
-    .then(response => response.json())
-    .then(data => {
+  fetch('https://23.javascript.pages.academy/keksobooking/data')
+    .then((response) => response.json())
+    .then((data) => {
       renderMarkers(data);
       setFormEnabled();
     })
-    .catch(err => showError(err))
+    .catch((err) => showError(err));
 };
 
 // // Неактивное состояние (заблокирована карта фильтры форма)   <==========
