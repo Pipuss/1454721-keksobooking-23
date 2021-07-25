@@ -6,6 +6,7 @@ const offerRoomsCapacity = addOfferForm.querySelector('#capacity');
 const offerRoomsType = addOfferForm.querySelector('#type');
 const offerTimeIn = addOfferForm.querySelector('#timein');
 const offerTimeOut = addOfferForm.querySelector('#timeout');
+// const resetButton = addOfferForm.querySelector('.ad-form__reset');
 
 const offerPriceDepending = {
   bungalow: 0,
@@ -15,65 +16,94 @@ const offerPriceDepending = {
   palace: 10000,
 };
 
-offerTitle.addEventListener('input', () => {
-  const minLength = offerTitle.minLength;
-  const maxLength = offerTitle.maxLength;
+export const validateForm = () => {
+  offerTitle.addEventListener('input', () => {
 
-  const valueLength = offerTitle.value.length;
+    const minLength = offerTitle.minLength;
+    const maxLength = offerTitle.maxLength;
 
-  if (valueLength < minLength) {
-    offerTitle.setCustomValidity(`Не хватает ещё ${minLength - valueLength} символов`);
-  } else if (valueLength > maxLength) {
-    offerTitle.setCustomValidity(`Длиннее возможного на ${valueLength - maxLength} символов`);
-  } else {
-    offerTitle.setCustomValidity('');
-  }
+    const valueLength = offerTitle.value.length;
 
-  offerTitle.reportValidity();
-});
+    if (valueLength < minLength) {
+      offerTitle.setCustomValidity(`Не хватает ещё ${minLength - valueLength} символов`);
+    } else if (valueLength > maxLength) {
+      offerTitle.setCustomValidity(`Длиннее возможного на ${valueLength - maxLength} символов`);
+    } else {
+      offerTitle.setCustomValidity('');
+    }
 
-const changeOfferMinPrice = (data, optionElement, priceElement) => {
-  priceElement.placeholder = data[optionElement.querySelector(':checked').value];
+    offerTitle.reportValidity();
+  });
+
+  const changeOfferMinPrice = (data, optionElement, priceElement) => {
+    priceElement.placeholder = data[optionElement.querySelector(':checked').value];
+  };
+
+  offerRoomsType.addEventListener('change', () => {
+    changeOfferMinPrice(offerPriceDepending, offerRoomsType, offerPrice);
+  });
+
+  offerPrice.addEventListener('input', () => {
+    const maxPrice = +offerPrice.max;
+    const minPrice = +offerPrice.min;
+    const price = +offerPrice.value;
+
+    if (price > maxPrice) {
+      offerPrice.setCustomValidity(`Укажите цену не больше ${maxPrice}`);
+    } else if (price < minPrice) {
+      offerPrice.setCustomValidity(`Укажите цену не меньше ${minPrice}`);
+    } else {
+      offerPrice.setCustomValidity('');
+    }
+
+    offerPrice.reportValidity();
+  });
+
+  offerTimeIn.addEventListener('change', () => {
+    const timesIn = offerTimeIn.querySelectorAll('option');
+    const timesOut = offerTimeOut.querySelectorAll('option');
+    // eslint-disable-next-line id-length
+    timesIn.forEach((timeIn, i) => {
+      if (timeIn.selected) {
+        timesOut[i].selected = 'selected';
+      }
+    });
+  });
+
+  offerRoomsNumber.addEventListener('change', () => {
+    const roomNumbers = offerRoomsNumber.querySelectorAll('option');
+    const roomCapacities = offerRoomsCapacity.querySelectorAll('option');
+    // eslint-disable-next-line id-length
+    roomNumbers.forEach((roomNumber, i) => {
+      if (roomNumber.selected) {
+        roomCapacities[i].selected = 'selected';
+      }
+    });
+  });
+
 };
 
-offerRoomsType.addEventListener('change', () => {
-  changeOfferMinPrice(offerPriceDepending, offerRoomsType, offerPrice);
-});
+export const submitingForm = (onSuccess, onError) => {
+  addOfferForm.addEventListener('submit', (evt) => {
 
-offerPrice.addEventListener('input', () => {
-  const maxPrice = +offerPrice.max;
-  const minPrice = +offerPrice.min;
-  const price = +offerPrice.value;
+    evt.preventDefault();
+    addOfferForm.children[2].disabled = false;
 
-  if (price > maxPrice) {
-    offerPrice.setCustomValidity(`Укажите цену не больше ${maxPrice}`);
-  } else if (price < minPrice) {
-    offerPrice.setCustomValidity(`Укажите цену не меньше ${minPrice}`);
-  } else {
-    offerPrice.setCustomValidity('');
-  }
-
-  offerPrice.reportValidity();
-});
-
-offerTimeIn.addEventListener('change', () => {
-  const timesIn = offerTimeIn.querySelectorAll('option');
-  const timesOut = offerTimeOut.querySelectorAll('option');
-  // eslint-disable-next-line id-length
-  timesIn.forEach((timeIn, i) => {
-    if (timeIn.selected) {
-      timesOut[i].selected = 'selected';
-    }
+    fetch(
+      'https://23.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        type: 'multipart/form-data',
+        body: new FormData(addOfferForm),
+      },
+    )
+      .then((response) => {
+        if (response.ok) {
+          onSuccess();
+        } else {
+          onError();
+        }
+      })
+      .catch(() => onError());
   });
-});
-
-offerRoomsNumber.addEventListener('change', () => {
-  const roomNumbers = offerRoomsNumber.querySelectorAll('option');
-  const roomCapacities = offerRoomsCapacity.querySelectorAll('option');
-  // eslint-disable-next-line id-length
-  roomNumbers.forEach((roomNumber, i) => {
-    if (roomNumber.selected) {
-      roomCapacities[i].selected = 'selected';
-    }
-  });
-});
+};

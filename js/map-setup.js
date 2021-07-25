@@ -1,5 +1,3 @@
-// import{setFormEnabled} from './ad-form.js';
-// import{similarOffers} from './generate-template-data.js';
 import{createSimilarElement} from './generate-similar-offers.js';
 
 const offerAddressInput = document.querySelector('#address');
@@ -28,9 +26,27 @@ const mainPinMarker = L.marker(
   },
 );
 
+export const renderMap = (callback) => {
+  offerMap =  L.map('map-canvas')
+    .on('load', () => {
+      callback;
+    })
+    .setView({
+      lat: 35.68346,
+      lng: 139.76987,
+    }, 10);
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(offerMap);
+  mainPinMarker.addTo(offerMap);
+  offerAddressInput.value = `Широта: ${mainPinMarker.getLatLng().lat}, долгота: ${mainPinMarker.getLatLng().lat}`;
+  mainPinMarker.on('moveend', () => {
+    offerAddressInput.value = `Широта: ${mainPinMarker.getLatLng().lat.toFixed(5)}, долгота: ${mainPinMarker.getLatLng().lat.toFixed(5)}`;
+  });
+};
 
 export const renderMarkers = ((data) => {
-
   data.forEach((item) => {
     const {location} = item;
     const offerPinMarker = L.marker(
@@ -46,27 +62,3 @@ export const renderMarkers = ((data) => {
     offerPinMarker.addTo(offerMap).bindPopup(createSimilarElement(author, offer));
   });
 });
-
-export const renderMap = (callback) => {
-  offerMap =  L.map('map-canvas')
-    .on('load', () => {
-      callback();
-    })
-    .setView({
-      lat: 35.68346,
-      lng: 139.76987,
-    }, 10);
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(offerMap);
-
-  mainPinMarker.addTo(offerMap);
-  offerAddressInput.value = mainPinMarker.getLatLng();
-
-  mainPinMarker.on('moveend', (evt) => {
-    offerAddressInput.value = evt.target.getLatLng();
-  });
-};
