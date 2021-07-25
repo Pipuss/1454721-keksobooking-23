@@ -1,40 +1,28 @@
-import{setFormDisabled, setFormEnabled} from './form-setup.js';
-import {renderMap, renderMarkers} from './map-setup.js';
-import {validateForm, submitingForm} from './form-validating.js';
-import {success, error} from './utils.js';
+import { deactivateApp } from './deactivate-app.js';
+import { activateAdForm, activateMapForm, setAdFormSubmit } from './ad-form.js';
+import { map, MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT } from './map.js';
+import { showErrorPopup, showSuccessPopup } from './util.js';
+import { getData } from './api.js';
+import { renderMarkers } from './filters.js';
+import './img.js';
 
-const deactivateApp = () => {
-  setFormDisabled('map__filters', 'fieldset');
-  setFormDisabled('ad-form', 'fieldset');
-};
+const onDataFail = () => {
+  document.querySelector('.error-message').classList.remove('hidden');
+}
 
-const activateApp = () => {
-  fetch('https://23.javascript.pages.academy/keksobooking/data')
-    .then((response) => {
-      if (response.ok) {
-        return response;
-      }
-
-      const {statusText, status} = response;
-      throw new Error(`${status} — ${statusText}`);
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      renderMarkers(data);
-      setFormEnabled('map__filters', 'fieldset');
-      setFormEnabled('ad-form', 'fieldset');
-      validateForm();
-    });
-};
-
-// // // Неактивное состояние (заблокирована карта фильтры форма)   <==========
-// // // *Инициализировать карту. Then:   <========
-// // //   Перевести в активное состояние:
-// // //    Скачать данные с сервера. Then:
-// // //      Отрисовать маркеры
-// // //      Установить фильтры
-// // //      Установить форму            <========
+const onDataSuccess = (properties) => {
+  renderMarkers(properties);
+  activateMapForm();
+}
 
 deactivateApp();
-renderMap(activateApp());
-submitingForm(success, error);
+
+map.on('load', () => {
+  activateAdForm();
+  setAdFormSubmit(showSuccessPopup, showErrorPopup);
+  getData(onDataSuccess, onDataFail);
+}).setView(
+  MAP_COORDS_DEFAULT,
+  MAP_ZOOM_DEFAULT
+);
+

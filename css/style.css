@@ -583,6 +583,12 @@ fieldset {
   border-radius: 5px;
 }
 
+.ad-form__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .ad-form__element--submit {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
@@ -1027,4 +1033,18 @@ fieldset {
 
 .hidden {
   display: none;
+}
+
+.error-message {
+  width: 100%;
+  height: 50px;
+  background-color: red;
+  text-align: center;
+}
+
+.error-message__text {
+  font-weight: 500;
+  color: white;
+  line-height: 50px;
+  font-size: 20px;
 }

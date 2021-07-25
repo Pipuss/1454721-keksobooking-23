@@ -2,17 +2,19 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="css/leaflet.css">
   <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="leaflet/leaflet.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <script src="leaflet/leaflet.js"></script>
-  <script src="js/main.js" type="module"></script>
   <title>Кексобукинг</title>
 </head>
 <body>
 
   <main>
+    <div class="error-message hidden">
+      <span class="error-message__text">При загрузке данных произошла ошибка</span>
+    </div>
+
     <div class="promo">
       <h1 class="promo__title visually-hidden">Keksobooking. Кексы по соседству</h1>
       <img src="img/keksobooking.svg" alt="Keksobooking. Кексы по соседству" width="215" height="45">
@@ -26,7 +28,7 @@
 
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
-        <form class="map__filters" method="POST" action="https://23.javascript.pages.academy/keksobooking" autocomplete="off">
+        <form action="https://23.javascript.pages.academy/keksobooking" method="POST" enctype="multipart/form-data" class="map__filters" autocomplete="off">
           <select name="housing-type" id="housing-type" class="map__filter">
             <option value="any" selected>Любой тип жилья</option>
             <option value="bungalow">Бунгало</option>
@@ -74,7 +76,7 @@
     <!-- Форма объявления -->
     <section class="notice">
       <h2 class="notice__title">Ваше объявление</h2>
-      <form class="ad-form" method="POST" action="https://23.javascript.pages.academy/keksobooking" enctype="multipart/form-data"  autocomplete="off">
+      <form class="ad-form" method="post" action="https://23.javascript.pages.academy/keksobooking" enctype="multipart/form-data" autocomplete="off">
         <fieldset class="ad-form-header">
           <legend class="ad-form-header__title">Ваша фотография (для карты)</legend>
           <div class="ad-form-header__upload">
@@ -94,30 +96,30 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text" value="50000">
+          <input id="address" name="address" type="text">
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
-          <select id="type" name="type" required>
+          <select id="type" name="type">
             <option value="bungalow">Бунгало</option>
-            <option value="flat">Квартира</option>
-            <option value="hotel" selected>Отель</option>
+            <option value="flat" selected>Квартира</option>
+            <option value="hotel">Отель</option>
             <option value="house">Дом</option>
             <option value="palace">Дворец</option>
           </select>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000" required min="5000" max="1000000">
+          <input id="price" name="price" type="number" placeholder="1000" required min="1000" max="1000000">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
-          <select id="timein" name="timein" required>
+          <select id="timein" name="timein">
             <option value="12:00" selected>После 12</option>
             <option value="13:00">После 13</option>
             <option value="14:00">После 14</option>
           </select>
-          <select id="timeout" name="timeout" title="Time to go out" required>
+          <select id="timeout" name="timeout" title="Time to go out">
             <option value="12:00" selected>Выезд до 12</option>
             <option value="13:00">Выезд до 13</option>
             <option value="14:00">Выезд до 14</option>
@@ -125,7 +127,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="room_number">Количество комнат</label>
-          <select id="room_number" name="rooms" required>
+          <select id="room_number" name="rooms">
             <option value="1" selected>1 комната</option>
             <option value="2">2 комнаты</option>
             <option value="3">3 комнаты</option>
@@ -134,10 +136,10 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
-          <select id="capacity" name="capacity" required>
-            <option value="3" selected>для 3 гостей</option>
+          <select id="capacity" name="capacity">
+            <option value="3">для 3 гостей</option>
             <option value="2">для 2 гостей</option>
-            <option value="1">для 1 гостя</option>
+            <option value="1" selected>для 1 гостя</option>
             <option value="0">не для гостей</option>
           </select>
         </fieldset>
@@ -172,7 +174,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--submit">
           <button class="ad-form__submit" type="submit">Опубликовать</button>
-          или <button class="ad-form__reset" type="reset">очистить</button>
+          или <button class="ad-form__reset" type="button">очистить</button>
         </fieldset>
       </form>
     </section>
@@ -196,7 +198,7 @@
   <!-- Карточка объявления -->
   <template id="card">
     <article class="popup">
-      <img src="img/avatars/user01.png" class="popup__avatar" width="70" height="70" alt="Аватар пользователя">
+      <img src="img/avatars/default.png" class="popup__avatar" width="70" height="70" alt="Аватар пользователя">
       <h3 class="popup__title">Уютное гнездышко для молодоженов</h3>
       <p class="popup__text popup__text--address">102-0082 Tōkyō-to, Chiyoda-ku, Ichibanchō, 14−3</p>
       <p class="popup__text popup__text--price">5200 <span>₽/ночь</span></p>
@@ -219,19 +221,16 @@
   </template>
 
   <!-- Сообщение об успешном создании объявления -->
-  <template id="success">
-    <div class="success">
-      <p class="success__message">Ваше объявление<br>успешно размещено!</p>
-    </div>
-  </template>
+  <div class="success hidden">
+    <p class="success__message">Ваше объявление<br>успешно размещено!</p>
+  </div>
 
   <!-- Сообщение об ошибке создания объявления -->
-  <template id="error">
-    <div class="error">
+  <div class="error hidden">
       <p class="error__message">Ошибка размещения объявления</p>
       <button type="button" class="error__button">Попробовать снова</button>
-    </div>
-  </template>
-
+  </div>
+  <script src="js/leaflet.js"></script>
+  <script src="js/main.js" type="module"></script>
 </body>
 </html>
