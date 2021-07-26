@@ -8,12 +8,12 @@ import './img.js';
 
 const onDataFail = () => {
   document.querySelector('.error-message').classList.remove('hidden');
-}
+};
 
 const onDataSuccess = (properties) => {
   renderMarkers(properties);
   activateMapForm();
-}
+};
 
 deactivateApp();
 
@@ -23,6 +23,6 @@ map.on('load', () => {
   getData(onDataSuccess, onDataFail);
 }).setView(
   MAP_COORDS_DEFAULT,
-  MAP_ZOOM_DEFAULT
+  MAP_ZOOM_DEFAULT,
 );
 

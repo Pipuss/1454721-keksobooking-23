@@ -16,7 +16,7 @@ const changeValue = (element, value, isAdd = true) => {
   } else {
     element.remove();
   }
-}
+};
 
 export const createpropertyElement = (property) => {
   const propertyElement = propertiesTemplate.cloneNode(true);
@@ -73,4 +73,4 @@ export const createpropertyElement = (property) => {
   }
 
   return propertyElement;
-}
+};

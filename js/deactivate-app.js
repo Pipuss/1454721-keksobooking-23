@@ -16,6 +16,6 @@ const deactivateApp = () => {
   mapFormElements.forEach((element) => {
     element.setAttribute('disabled', 'disabled');
   });
-}
+};
 
-export { deactivateApp }
+export { deactivateApp };

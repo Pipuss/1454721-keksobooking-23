@@ -36,7 +36,7 @@ const activateAdForm = () => {
   formElements.forEach((element) => {
     element.removeAttribute('disabled');
   });
-}
+};
 
 const activateMapForm = () => {
   mapForm.classList.remove('map__filters--disabled');
@@ -44,7 +44,7 @@ const activateMapForm = () => {
   mapFormElements.forEach((element) => {
     element.removeAttribute('disabled');
   });
-}
+};
 
 addTitleInput.addEventListener('input', () => {
   const valueLength = addTitleInput.value.length;
@@ -118,7 +118,7 @@ const resetForm = () => {
   resetMap();
   avatarPreview.src = DEFAULT_AVATAR;
   housePhotoPreview.innerHTML = '';
-}
+};
 
 const setAdFormSubmit = (onSuccess, onFail) => {
   adForm.addEventListener('submit', (evt) => {
@@ -133,7 +133,7 @@ const setAdFormSubmit = (onSuccess, onFail) => {
       new FormData(evt.target),
     );
   });
-}
+};
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault;

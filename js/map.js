@@ -9,21 +9,21 @@ const MAP_COORDS_DEFAULT = {
   lng: 139.69171,
 };
 const MAP_ZOOM_DEFAULT = 12;
-const MAX_properties = 10;
+const MAX_PROPERTIES = 10;
 const FLOAT_NUMBER = 5;
-const LAYER_TEMPLATE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const LAYER_TEMPLATE = 'https://{s}.tile.openstreetMAP.org/{z}/{x}/{y}.png';
+const ATTRIBUTION = '&copy; <a href="https://www.openstreetMAP.org/copyright">OpenStreetMAP</a> contributors';
 const MAIN_ICON_URL = '../img/main-pin.svg';
 const ICON_URL = '../img/pin.svg';
-const adAddressInput = document.querySelector('#address');
-const map = L.map('map-canvas');
+const AD_ADDRESS_INPUT = document.querySelector('#address');
+const MAP = L.MAP('MAP-canvas');
 
 L.tileLayer(
   LAYER_TEMPLATE,
   {
     attribution: ATTRIBUTION,
   },
-).addTo(map);
+).addTo(MAP);
 
 const mainPinIcon = L.icon({
   iconUrl: MAIN_ICON_URL,
@@ -39,9 +39,9 @@ const mainPinMarker = L.marker(
   },
 );
 
-mainPinMarker.addTo(map);
+mainPinMarker.addTo(MAP);
 
-const markerGroup = L.layerGroup().addTo(map);
+const markerGroup = L.layerGroup().addTo(MAP);
 
 const createMarker = (property) => {
   const icon = L.icon({
@@ -72,28 +72,26 @@ const createMarker = (property) => {
 const createMarkers = (properties) => {
   markerGroup.clearLayers();
   properties
-    .slice(0, MAX_properties)
+    .slice(0, MAX_PROPERTIES)
     .forEach((property) => {
       createMarker(property);
     });
-}
+};
 
-const getLatLngString = (latLng) => {
-  return `${latLng.lat.toFixed(FLOAT_NUMBER)} ${latLng.lng.toFixed(FLOAT_NUMBER)}`;
-}
+const getLatLngString = (latLng) => `${latLng.lat.toFixed(FLOAT_NUMBER)} ${latLng.lng.toFixed(FLOAT_NUMBER)}`;
 
-adAddressInput.value = getLatLngString(mainPinMarker.getLatLng());
+AD_ADDRESS_INPUT.value = getLatLngString(mainPinMarker.getLatLng());
 
-const resetMap = () => {
+const resetMAP = () => {
   mainPinMarker.setLatLng(MAP_COORDS_DEFAULT);
 
-  map.setView(MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT);
+  MAP.setView(MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT);
 
-  adAddressInput.value = getLatLngString(mainPinMarker.getLatLng());
-}
+  AD_ADDRESS_INPUT.value = getLatLngString(mainPinMarker.getLatLng());
+};
 
 mainPinMarker.on('moveend', () => {
-  adAddressInput.value = getLatLngString(mainPinMarker.getLatLng());
+  AD_ADDRESS_INPUT.value = getLatLngString(mainPinMarker.getLatLng());
 });
 
-export { resetMap, createMarkers, map, MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT };
+export { resetMAP, createMarkers, MAP, MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT };

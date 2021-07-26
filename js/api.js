@@ -10,7 +10,7 @@ const getData = (onSuccess, onFail) => {
     .catch(() => {
       onFail();
     });
-}
+};
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(SEND_URL, {
@@ -25,6 +25,6 @@ const sendData = (onSuccess, onFail, body) => {
   }).catch(() => {
     onFail();
   });
-}
+};
 
 export { getData, sendData };

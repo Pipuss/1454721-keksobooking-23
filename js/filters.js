@@ -23,7 +23,7 @@ let allproperties = [];
 const renderMarkers = (properties) => {
   allproperties = properties;
   createMarkers(allproperties);
-}
+};
 
 const getFilteredproperties = () => {
   const filteredproperties = allproperties
@@ -82,7 +82,7 @@ const getFilteredproperties = () => {
     });
 
   return filteredproperties;
-}
+};
 
 const updateMarkers = debounce(() => createMarkers(getFilteredproperties()));
 
@@ -124,6 +124,6 @@ const resetFilters = () => {
   filters.guests = 'any';
   filters.features = [];
   updateMarkers();
-}
+};
 
 export { renderMarkers, resetFilters };
