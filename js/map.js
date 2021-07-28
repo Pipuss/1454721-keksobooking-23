@@ -11,12 +11,12 @@ const MAP_COORDS_DEFAULT = {
 const MAP_ZOOM_DEFAULT = 12;
 const MAX_PROPERTIES = 10;
 const FLOAT_NUMBER = 5;
-const LAYER_TEMPLATE = 'https://{s}.tile.openstreetMAP.org/{z}/{x}/{y}.png';
-const ATTRIBUTION = '&copy; <a href="https://www.openstreetMAP.org/copyright">OpenStreetMAP</a> contributors';
+const LAYER_TEMPLATE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const MAIN_ICON_URL = '../img/main-pin.svg';
 const ICON_URL = '../img/pin.svg';
 const AD_ADDRESS_INPUT = document.querySelector('#address');
-const MAP = L.MAP('MAP-canvas');
+const MAP = L.map('map-canvas');
 
 L.tileLayer(
   LAYER_TEMPLATE,
@@ -82,7 +82,7 @@ const getLatLngString = (latLng) => `${latLng.lat.toFixed(FLOAT_NUMBER)} ${latLn
 
 AD_ADDRESS_INPUT.value = getLatLngString(mainPinMarker.getLatLng());
 
-const resetMAP = () => {
+const resetMap = () => {
   mainPinMarker.setLatLng(MAP_COORDS_DEFAULT);
 
   MAP.setView(MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT);
@@ -94,4 +94,4 @@ mainPinMarker.on('moveend', () => {
   AD_ADDRESS_INPUT.value = getLatLngString(mainPinMarker.getLatLng());
 });
 
-export { resetMAP, createMarkers, MAP, MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT };
+export { resetMap, createMarkers, MAP, MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT };

@@ -1,6 +1,6 @@
 import { deactivateApp } from './deactivate-app.js';
 import { activateAdForm, activateMapForm, setAdFormSubmit } from './ad-form.js';
-import { map, MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT } from './map.js';
+import { MAP, MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT } from './map.js';
 import { showErrorPopup, showSuccessPopup } from './util.js';
 import { getData } from './api.js';
 import { renderMarkers } from './filters.js';
@@ -17,7 +17,7 @@ const onDataSuccess = (properties) => {
 
 deactivateApp();
 
-map.on('load', () => {
+MAP.on('load', () => {
   activateAdForm();
   setAdFormSubmit(showSuccessPopup, showErrorPopup);
   getData(onDataSuccess, onDataFail);
