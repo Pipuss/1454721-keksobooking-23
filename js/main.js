@@ -1,35 +1,28 @@
-import{setFormDisabled, setFormEnabled} from './ad-form.js';
-import {renderMap, renderMarkers} from './map-setup.js';
+import { deactivateApp } from './deactivate-app.js';
+import { activateAdForm, activateMapForm, setAdFormSubmit } from './ad-form.js';
+import { MAP, MAP_COORDS_DEFAULT, MAP_ZOOM_DEFAULT } from './map.js';
+import { showErrorPopup, showSuccessPopup } from './util.js';
+import { getData } from './api.js';
+import { renderMarkers } from './filters.js';
+import './img.js';
 
-
-const showError = (err) => {
-  // eslint-disable-next-line no-alert
-  alert(err);
+const onDataFail = () => {
+  document.querySelector('.error-message').classList.remove('hidden');
 };
 
-const deactivateApp = () => {
-  setFormDisabled('map__filters', 'fieldset');
-  setFormDisabled('ad-form', 'fieldset');
+const onDataSuccess = (properties) => {
+  renderMarkers(properties);
+  activateMapForm();
 };
-
-const activateApp = () => {
-  fetch('https://23.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
-    .then((data) => {
-      renderMarkers(data);
-      setFormEnabled();
-    })
-    .catch((err) => showError(err));
-};
-
-// // Неактивное состояние (заблокирована карта фильтры форма)   <==========
-// // *Инициализировать карту. Then:   <========
-// //   Перевести в активное состояние:
-// //    Скачать данные с сервера. Then:
-// //      Отрисовать маркеры
-// //      Установить фильтры
-// //      Установить форму            <========
-
 
 deactivateApp();
-renderMap(activateApp);
+
+MAP.on('load', () => {
+  activateAdForm();
+  setAdFormSubmit(showSuccessPopup, showErrorPopup);
+  getData(onDataSuccess, onDataFail);
+}).setView(
+  MAP_COORDS_DEFAULT,
+  MAP_ZOOM_DEFAULT,
+);
+
