@@ -78,7 +78,7 @@ const createMarkers = (properties) => {
     });
 };
 
-const getLatLngString = (latLng) => `${latLng.lat.toFixed(FLOAT_NUMBER)} ${latLng.lng.toFixed(FLOAT_NUMBER)}`;
+const getLatLngString = (latLng) => `${latLng.lat.toFixed(FLOAT_NUMBER)}, ${latLng.lng.toFixed(FLOAT_NUMBER)}`;
 
 AD_ADDRESS_INPUT.value = getLatLngString(mainPinMarker.getLatLng());
 
